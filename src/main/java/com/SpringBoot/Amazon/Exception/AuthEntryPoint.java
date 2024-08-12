@@ -3,6 +3,7 @@ package com.SpringBoot.Amazon.Exception;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -11,13 +12,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class AuthEntryPoint implements AuthenticationEntryPoint {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPoint.class);
+//    private static final Logger log = LoggerFactory.getLogger(AuthEntryPoint.class);
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
+        log.error(" Unauthorized error: {} ",ex.getMessage());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED," Error: Unauthorized ");
     }
 
 }
