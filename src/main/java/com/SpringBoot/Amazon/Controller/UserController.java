@@ -1,0 +1,50 @@
+package com.SpringBoot.Amazon.Controller;
+
+import com.SpringBoot.Amazon.Model.User;
+import com.SpringBoot.Amazon.Service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Set;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/admin")
+public class UserController {
+
+    private final UserService service;
+
+    @GetMapping("/get/user")
+    public List<User> getApi () {
+        return service.getUser();
+    }
+
+    @PostMapping("/post/user")
+    public String postApi(@Valid @RequestBody User user){
+        return service.postUser(user);
+    }
+
+    @PutMapping("/put/user/{id}")
+    public String putApi (@Valid @RequestBody User user, @PathVariable long id){
+        user.setId(id);
+        return service.putUser(user);
+    }
+
+    @DeleteMapping("/delete/user/{id}")
+    public String deleteApi (@Valid @PathVariable long id) {
+        return service.deleteUser(id);
+    }
+
+    @DeleteMapping("/delete/ListOfUser")
+    public String deleteListApi (@Valid @RequestBody List<Long> user){
+        return service.deleteListOfUser(user);
+    }
+
+    @GetMapping("/getQuery/user/{id}")
+    public List<User> queryApi (@Valid @PathVariable Set<Long> id){
+        return service.queryUser(id);
+    }
+
+}
+
