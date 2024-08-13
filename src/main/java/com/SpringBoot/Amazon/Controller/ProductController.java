@@ -46,5 +46,11 @@ public class ProductController {
         return service.queryProduct(id);
     }
 
+    @PatchMapping("/patch/product/{id}")
+    public String patchApi ( @Valid @RequestBody Product product, @PathVariable long id) {
+        product.setId(id);
+        return service.patchProduct(product);
+    }
+
 }
 

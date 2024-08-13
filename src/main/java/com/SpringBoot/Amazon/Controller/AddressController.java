@@ -21,12 +21,12 @@ public class AddressController {
     }
 
     @PostMapping("/post/address")
-    public String postApi(@Valid @RequestBody Address address){
+    public String postApi (@Valid @RequestBody Address address){
         return service.postAddress(address);
     }
 
     @PutMapping("/put/address/{id}")
-    public String PutApi(@Valid @RequestBody Address address, @PathVariable long id) {
+    public String PutApi (@Valid @RequestBody Address address, @PathVariable long id) {
         address.setId(id);
         return service.putAddress(address);
     }
@@ -44,6 +44,12 @@ public class AddressController {
     @GetMapping("/getQuery/address/{id}")
     public List<Address> queryGetApi (@Valid @PathVariable Set<Long> id){
         return service.queryAddress(id);
+    }
+
+    @PatchMapping("/patch/address/{id}")
+    public String patchApi (@Valid @RequestBody Address address, @PathVariable long id) {
+        address.setId(id);
+        return service.patchAddress(address);
     }
 
 }

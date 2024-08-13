@@ -46,5 +46,11 @@ public class UserController {
         return service.queryUser(id);
     }
 
+    @PatchMapping("/patch/user/{id}")
+    public String patchApi ( @Valid @RequestBody User user, @PathVariable long id) {
+        user.setId(id);
+        return service.patchUser(user);
+    }
+
 }
 

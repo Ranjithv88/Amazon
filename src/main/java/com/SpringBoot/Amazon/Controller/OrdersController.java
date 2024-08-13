@@ -46,5 +46,11 @@ public class OrdersController {
         return service.queryOrders(id);
     }
 
+    @PatchMapping("/patch/orders/{id}")
+    public String patchApi (@Valid @RequestBody Orders order, @PathVariable long id) {
+        order.setId(id);
+        return service.patchOrder(order);
+    }
+
 }
 

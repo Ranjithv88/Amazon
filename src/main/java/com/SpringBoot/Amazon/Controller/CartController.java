@@ -46,5 +46,11 @@ public class CartController {
         return service.queryCart(id);
     }
 
+    @PatchMapping("/patch/cart/{id}")
+    public String patchApi ( @Valid @RequestBody Cart cart, @PathVariable long id) {
+        cart.setId(id);
+        return service.patchCart(cart);
+    }
+
 }
 
