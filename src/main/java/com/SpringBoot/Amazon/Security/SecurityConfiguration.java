@@ -11,26 +11,32 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private AuthenticationFilter securityFilterChain;
+    private AuthenticationFilter authenticationFilter;
     private AuthEntryPoint authenticationEntryPoint;
     private AuthenticationProvider authenticationProvider;
 
-    private final String[] guest = {"/guest/**","/test"};
+    private final String[] guest = {"/public/**"};
     private final String[] user = {"/user/**"};
-    private final String[] seller = {"/user/**"};
     private final String[] admin = {"/admin/**"};
-    private String[][] developer = {user,guest,seller,admin};
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+
+        List<String> developerPaths = new ArrayList<>();
+        developerPaths.addAll(Arrays.asList(guest));
+        developerPaths.addAll(Arrays.asList(user));
+        developerPaths.addAll(Arrays.asList(admin));
+        String[] developer = developerPaths.toArray(new String[0]);
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception->exception.authenticationEntryPoint(authenticationEntryPoint))
@@ -38,13 +44,13 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authentication->
                         authentication.requestMatchers(guest).permitAll()
                                 .requestMatchers(user).hasAuthority("USER")
-                                .requestMatchers(seller).hasAuthority("SELLER")
                                 .requestMatchers(admin).hasAuthority("ADMIN")
-                                .requestMatchers( Arrays.stream(developer).flatMap(Arrays::stream).toArray(String[]::new)).hasAuthority("DEVELOPER")
+                                .requestMatchers(developer).hasAuthority("DEVELOPER")
                 );
         httpSecurity.authenticationProvider(authenticationProvider);
-        httpSecurity.addFilterBefore(securityFilterChain, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
+
     }
 
 }

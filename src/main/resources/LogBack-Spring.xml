@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-<!--    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} %clr(%5p) %logger{36} - %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
-
-    <appender name="FileAppender" filename ="AmazonApplication" class="ch.qos.logback.core.FileAppender">
-        <file>logs/AmazonApplication.log</file>
+<!--    This is Show the Log in Console -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd|HH:mm:ss.SSS} - [%thread] - %highlight(%-5level) - %logger{36} -- %msg%n</pattern>
         </encoder>
     </appender>
 
-        <root level="DEBUG">
-<!--            <appender-ref ref="ConsoleAppender"/>-->
-            <appender-ref ref="FileAppender"/>
-        </root>
+<!--    This is Stored the Log in File -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>Logs/Amazon.%d{yyyy-MM-dd}.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd|HH:mm:ss.SSS} - [%thread] - %highlight(%-5level) - %logger{36} -- %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <!--    This is Rolling the Single Log File -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>Logs/Amazon.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <maxFileSize>3GB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd|HH:mm:ss.SSS} - [%thread] - %highlight(%-5level) - %logger{36} -- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--    Enabled Root Level -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!--   Logging Level in Project  -->
+    <logger name="com.SpringBoot.Amazon" level="DEBUG"/>
 
 </configuration>
 

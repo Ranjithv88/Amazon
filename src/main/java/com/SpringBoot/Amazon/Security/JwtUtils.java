@@ -32,7 +32,7 @@ public class JwtUtils {
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
+                .setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))
                 .signWith(key(), SignatureAlgorithm.HS384)
                 .compact();
         log.info(" Token Generate SuccessFully .....! {} \t",token);

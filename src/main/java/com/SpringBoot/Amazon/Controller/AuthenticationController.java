@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/guest")
+@RequestMapping("/public")
 public class AuthenticationController {
 
     private final AuthenticationService service;
@@ -24,7 +24,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login ( @RequestBody Login login) {
+    public ResponseEntity<?> login ( @Valid @RequestBody Login login) {
         return service.login(login);
     }
 

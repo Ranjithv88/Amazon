@@ -1,5 +1,7 @@
 package com.SpringBoot.Amazon.Model;
 
+import com.SpringBoot.Amazon.Annotations.ValidGender;
+import com.SpringBoot.Amazon.Model.Enum.Gender;
 import com.SpringBoot.Amazon.Model.Enum.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -47,8 +49,19 @@ public class User implements UserDetails {
     private String number;
 
     @NotNull(message = " DateOfBirth is Mandatory .......! ")
-    @Past(message = " DateOfBirth Must Be A Past Date .......! ")
+    @Past(message = " DateOfBirth Must Be A Past Date .    private String gender;\n" +
+            "    ......! ")
     private LocalDate dateOfBirth ;
+
+//    @Pattern(regexp = "Male|Female|Other", message = " Gender must be Male, Female, or Other ") // This is the RegXP Pattern Of Gender
+//    private String gender;
+
+//    @NotNull(message = " Gender is required .......! ")
+//    @Enumerated(value = EnumType.STRING)
+//    private Gender gender;
+
+    @ValidGender
+    private String gender;
 
     private LocalDate createdOn;
 
@@ -73,8 +86,8 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
-    }
+        return email;
+}
 
     @Override
     public boolean isAccountNonExpired() {
